@@ -77,8 +77,8 @@ const HomeScreen = () => {
                 renderItem = {( {item} ) => { 
                     return (
                         <ImageBackground source = {item.source} style = {styles.postElement}>
-                            <Text>{item.title}</Text>
-                            <Text>{item.subtitle}</Text>
+                            <Text style = {styles.postTitle}>{item.title}</Text>
+                            <Text style = {styles.postSubtitle}>{item.subtitle}</Text>
                         </ImageBackground>
                     );
                 }}
@@ -101,17 +101,24 @@ const styles = StyleSheet.create({
         flex: 1
     },
     postElement: {
-        width: "100%",
+        width: 380,
         height: 200,
         borderRadius: 20,
         resizeMode: "cover",
         paddingTop: 20
     },
     postTitle: {
-        fontSize: 20
+        fontSize: 24,
+        fontWeight: "bold",  
+        color: "white",
+        backgroundColor: colors.secondary,
+        opacity: .7
     },
     postSubtitle: {
-        fontSize: 14
+        fontSize: 14,
+        color: "white",
+        backgroundColor: colors.secondary,
+        opacity: .7
     }
   });
 
