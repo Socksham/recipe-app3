@@ -1,4 +1,4 @@
 export default {
-    primary: 'dodgerblue',
+    primary: '#374B73',
     secondary: 'orange'
 }
