@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import React from 'react'
+import React, {Component} from 'react';
 import { View, Text, Button, SafeAreaView, StatusBar } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Platform, StyleSheet } from 'react-native';
