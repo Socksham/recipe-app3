@@ -1,11 +1,9 @@
-import React from 'react'
-import { SafeAreaView, Text } from 'react-native';
-import { View, TextInput, StyleSheet } from 'react-native'
-
+import React, {Component} from 'react';
+import { SafeAreaView, Text, StyleSheet, TextInput } from 'react-native';
 const CameraScreen = () => {
     return (
         <SafeAreaView style={styles.container}>
-            <Text>CAMERA</Text>
+            <Text>Camera Screen</Text>
         </SafeAreaView>
     )
 }
