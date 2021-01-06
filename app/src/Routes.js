@@ -6,14 +6,20 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Platform, StyleSheet } from 'react-native';
 import SearchBar from '../components/SearchBar'
 
+import colors from './config/colors.js';
+
 const Stack = createStackNavigator()
 const Tabs = createBottomTabNavigator()
 
 function Home(){
     return (
         <SafeAreaView style={styles.container}>
-            <Text>HOME</Text>
+            <View style = {{height: 50, backgroundColor: colors.primary, justifyContent:"center", alignItems: "center"}}>
+                <Text>COMPANY LOGO GOES HERE</Text>
+                <Image></Image>
+            </View>
         </SafeAreaView>
+        
     )
 }
 
@@ -77,6 +83,6 @@ export const Routes = ({}) => {
 
 const styles = StyleSheet.create({
     container:{
-        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
+        backgroundColor: colors.primary
     },
   });
