@@ -12,14 +12,6 @@ const search = (query) => {
     let url = start + query
     console.log(url)
 
-    // fetch("http://www.recipepuppy.com/api/?i=onions,garlic&q=omelet&p=3",
-    // ).then(response => {
-    //     console.log(JSON.stringify(response))
-    // })
-    // .catch(err => {
-    //     console.error(err);
-    // });
-
     let request = new XMLHttpRequest();
     request.open("GET", "http://www.recipepuppy.com/api/?i=" + query);
     request.send();
@@ -29,7 +21,7 @@ const search = (query) => {
         let obj = JSON.parse(request.response);
         
         console.log(JSON.parse(request.response));
-        console.log(obj.results[1].title)
+        console.log(obj.results[0].title)
     }else{
         console.log(`error ${request.status} ${request.statusText}`)
     }

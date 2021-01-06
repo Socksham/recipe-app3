@@ -69,8 +69,7 @@ const HomeScreen = () => {
         <SafeAreaView style={{ flex: 0, backgroundColor: colors.primary }} />
         <SafeAreaView style={{ flex: 1 }}>
             <View style={{height: "10%", justifyContent: "center", alignItems: "center", backgroundColor: colors.primary}}>
-                <Image source = {require('../assets/logo.jpg')}></Image>
-                <Text>COMPANY LOGO GOES HERE</Text>
+                <Image style = {{resizeMode: "contain", height: "80%"}} source = {require('./logo2.jpg')}></Image>
             </View>
             <FlatList
                 data = {POSTS} 
