@@ -16,6 +16,15 @@ const CameraPictureScreen = () => {
         console.log("Loaded model.json")
         const modelWeight = await require("../model/group1-shard.bin");
         console.log("weights loaded")
+        var model = {
+            
+        };
+        
+        localforage.setItem('colors', hexColors).then(function (value) {
+            console.log(value.red);
+        }).catch(function(err) {
+            console.error(err);
+        });
         const detector = await tf.loadLayersModel(bundleResourceIO(modelJson, modelWeight));
         console.log("PREDICTING")
         //use the model
@@ -25,6 +34,8 @@ const CameraPictureScreen = () => {
     const navigation = useNavigation();
     const route = useRoute();
     const { image, tensor } = route.params;
+    
+      console.log('helllo')
     console.log(JSON.stringify(tensor))
     console.log(JSON.stringify(image))
     // console.log("[+] Loading custom model")

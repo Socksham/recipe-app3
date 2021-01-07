@@ -25,18 +25,28 @@ export default function CameraScreen() {
 
   const _takePicture = async () => {
     console.log("Loading...")
-    const photo = await cameraRef.current.takePictureAsync()
-    const fileUri = photo.uri;
-    console.log(fileUri)  
-    const imgB64 = await FileSystem.readAsStringAsync(fileUri, {
-      encoding: FileSystem.EncodingType.Base64,
-    });
-    await tf.ready();
-    const imgBuffer = tf.util.encodeString(imgB64, 'base64').buffer;
-    const raw = new Uint8Array(imgBuffer)  
-    const imageTensor = decodeJpeg(raw);
-    console.log('helllo')
-    navigation.navigate("CameraPicture", {image: fileUri, tensor: imageTensor});
+    const options = {
+        bse64:true
+    };
+    const photo = await cameraRef.current.takePictureAsync(options)
+    const Clarifai = require('clarifai')
+    const app = new Clarifai.App({
+      apiKey: '286912c7f9184e3cb1c0cc5105f244c1'
+  });
+  app.models.predict(Clarifai.GENERAL_MODEL, {base64: imageData})
+  .then((response) =>  this.displayAnswer(response.outputs[0].data.concepts[0].name)
+  .catch((err) => alert(err))
+);
+    // const fileUri = photo.uri;
+    // console.log(fileUri)  
+    // const imgB64 = await FileSystem.readAsStringAsync(image, {
+    //   encoding: FileSystem.EncodingType.Base64,
+    // });
+    // await tf.ready();
+    // const imgBuffer = tf.util.encodeString(imgB64, 'base64').buffer;
+    // const raw = new Uint8Array(imgBuffer)  
+    // tensor = decodeJpeg(raw);
+    navigation.navigate("CameraPicture", {image: fileUri});
   }
 
   useEffect(() => {
