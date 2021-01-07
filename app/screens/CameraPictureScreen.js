@@ -1,13 +1,8 @@
 import React, {useState, useEffect } from 'react';
-import { Button, Input } from 'react-native-elements'
-import Svg, {Rect} from 'react-native-svg';
-import * as tf from '@tensorflow/tfjs';
-import { fetch, bundleResourceIO } from '@tensorflow/tfjs-react-native';
-import * as blazeface from '@tensorflow-models/blazeface';
-import * as jpeg from 'jpeg-js'
-import { View, TextInput,SafeAreaView, StyleSheet,Image, Text } from 'react-native';
+import { Button, Input, ListItem, List } from 'react-native-elements'
+import { SafeAreaView, StyleSheet, Text } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { Camera } from 'expo-camera';
+import { FlatList } from 'react-native-gesture-handler';
 
 export default function CameraPictureScreen(){
     // const predict = async () => {
@@ -25,57 +20,28 @@ export default function CameraPictureScreen(){
 
     const navigation = useNavigation();
     const route = useRoute();
-    const { image, tensor } = route.params;
+    const { prediction } = route.params;
 
-    const callAPI = (imageurl) => {
-        // var request = new XMLHttpRequest();
+    console.log(prediction)
 
-        // request.open('GET', 'http://api.foodai.org/v1/classify?image_url=&qid=&num_tag=');
-
-        // request.onreadystatechange = function () {
-        // if (this.readyState === 4) {
-        //     console.log('Status:', this.status);
-        //     console.log('Headers:', this.getAllResponseHeaders());
-        //     console.log('Body:', this.responseText);
-        //     }
-        // };
-
-        // request.send();
-            let url = 'http://api.foodai.org/v1/classify?image_url=&qid=&num_tag='
-            let request = new XMLHttpRequest();
-            request.open("GET", url);
-            request.send();
-            request.onload = () => {
-        if (request.status == 200) {
-            console.log(request.response)
-        } else {
-            console.log(`error ${request.status} ${request.statusText}`);
-        }
-    }
-}
-
-    callAPI()
-
-    
-
-
-    // console.log(JSON.stringify(tensor))
-    // console.log(JSON.stringify(image))
-    // console.log("[+] Loading custom model")
-    // const modelJson = require("../model/model.json");
-    // const modelWeight = require("../model/group1-shard.bin");
-    // const detector = tf.loadLayersModel(bundleResourceIO(modelJson, modelWeight));
-
-    // //use the model
-    // let result = detector.predict(tensor).data()
-    // predict()
-    
     return (
         <SafeAreaView style={styles.container}>
-            <Text>{JSON.stringify(tensor)}</Text>
-            <Text>{JSON.stringify(image)}</Text>
-            <Image source={{ isStatic: true, uri: JSON.stringify(image)}} style={{height: 100, width:100}} />
-            {/* <Image source={require(image)}/> */}
+            {/* <List> */}
+                <FlatList 
+                    data = {prediction} 
+                    keyExtractor = {(item) => item.id}
+                    renderItem = {({item}) => (
+                            // <ListItem 
+                            //     title={item.name}
+                            //     subtitle={item.value}
+                            //     containerStyle={{borderBottomWidth: 0}}
+                            // />
+                            <Text>{item.name}</Text>
+                        )}
+
+                />
+            {/* </List> */}
+            
         </SafeAreaView>
     )
 }
