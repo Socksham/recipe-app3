@@ -5,7 +5,7 @@ import CameraPictureScreen from '../screens/CameraPictureScreen'
 import CameraScreen from '../screens/CameraScreen'
 
 const CameraStack = createStackNavigator();
-
+console.log("I am at camera stack screen")
 function Camera(){
     return <CameraScreen />
 }

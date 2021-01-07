@@ -5,7 +5,7 @@ import * as tf from '@tensorflow/tfjs';
 import { fetch, bundleResourceIO } from '@tensorflow/tfjs-react-native';
 import * as blazeface from '@tensorflow-models/blazeface';
 import * as jpeg from 'jpeg-js'
-import { View, TextInput,SafeAreaView, StyleSheet,Image, Text } from 'react-native';
+import { View, TextInput,SafeAreaView,TouchableOpacity, StyleSheet,Image, Text } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Camera } from 'expo-camera';
 
@@ -52,6 +52,12 @@ const CameraPictureScreen = () => {
             <Text>{JSON.stringify(tensor)}</Text>
             <Text>{JSON.stringify(image)}</Text>
             <Image source={{ isStatic: true, uri: JSON.stringify(image)}} style={{height: 100, width:100}} />
+            {"\n"}
+            {"\n"}
+            {"\n"}
+            <TouchableOpacity>
+                <Text>Click here to get to the recipe screen</Text>
+            </TouchableOpacity>
             {/* <Image source={require(image)}/> */}
         </SafeAreaView>
     )

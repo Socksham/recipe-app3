@@ -38,14 +38,37 @@ function LoadRecipes(){
 function RecipeInformation(){
     return <RecipeInformationScreen />
 }
-
+import { Ionicons } from '@expo/vector-icons'
 export const Routes = ({}) => {
     return(
         <NavigationContainer>
-            <Tabs.Navigator initialRouteName="Home">
+            <Tabs.Navigator initialRouteName="Home"
+            screenOptions={({ route }) => ({
+                tabBarIcon: ({ focused, color, size }) => {   
+                    let iconName;       
+                    if (route.name === 'CameraStack') {
+                    iconName = focused
+                    ? 'camera'
+                    : 'camera';
+                } else if (route.name === 'SearchRecipe') {
+                    iconName = focused
+                    ? 'search'
+                    : 'search';
+                }else if (route.name === 'Home') {
+                    iconName = focused
+                    ? 'home'
+                    : 'home';
+                }
+            
+            return <Ionicons name={iconName} size={size} color={color}     />;
+            },
+            })}    tabBarOptions={{
+            activeTintColor: colors.secondary,
+            inactiveTintColor: colors.primary,
+            }} >
                 <Tabs.Screen name="Home" component={Home}/>
-                <Tabs.Screen name="CameraStack" component={CameraStack}/>
-                <Tabs.Screen name="SearchRecipe" component={SearchRecipe}/>
+                <Tabs.Screen options={{title:"Camera"}} name="CameraStack" component={CameraStack}/>
+                <Tabs.Screen options={{title:"Search Recipe"}} name="SearchRecipe" component={SearchRecipe}/>
             </Tabs.Navigator>
         </NavigationContainer>
     )
