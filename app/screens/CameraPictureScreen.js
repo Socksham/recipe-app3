@@ -21,14 +21,19 @@ export default function CameraPictureScreen(){
     const navigation = useNavigation();
     const route = useRoute();
     const { prediction } = route.params;
+    let dict = prediction
+    dict  = dict.splice(3, dict.length-3);
+    
+    // dict = take(3, dict.iteritems())
+    
 
+    
     console.log(prediction)
-
     return (
         <SafeAreaView style={styles.container}>
             {/* <List> */}
-                <FlatList 
-                    data = {prediction} 
+                <FlatList
+                    data = {dict} 
                     keyExtractor = {(item) => item.id}
                     renderItem = {({item}) => (
                             // <ListItem 

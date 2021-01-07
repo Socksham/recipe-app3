@@ -28,13 +28,9 @@ function ConfirmPicture(){
 }
 
 function SearchRecipe(){
-   
     return <SearchRecipeScreen />
 }
 
-function LoadRecipes(){
-    return <LoadRecipesScreen />
-}
 
 function RecipeInformation(){
     return <RecipeInformationScreen />

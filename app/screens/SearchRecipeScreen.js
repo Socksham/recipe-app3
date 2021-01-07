@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { Button } from "react-native";
 import { ImageBackground } from "react-native";
-import { SafeAreaView, Text, FlatList } from "react-native";
+import { SafeAreaView, Text, FlatList,TouchableOpacity,TouchableWithoutFeedback, Linking } from "react-native";
 import { View, TextInput, StyleSheet, Image } from "react-native";
 import { SearchBar } from "react-native-elements";
 import colors from "../src/config/colors.js";
@@ -90,6 +90,7 @@ const SearchRecipeScreen = () => {
           keyExtractor={(item) => item.title}
           renderItem={({ item }) => {
             return (
+              <TouchableWithoutFeedback onPress={() => Linking.openURL(item.href)}>
                 <ImageBackground
                 blurRadius={1}
                 source={{uri:item.thumbnail}}
@@ -98,6 +99,7 @@ const SearchRecipeScreen = () => {
                 <Text style={styles.postTitle}>{item.title}</Text>
                 <Text style={styles.postSubtitle}>Main Ingredients: {item.ingredients}</Text>
                 </ImageBackground>
+              </TouchableWithoutFeedback>
             );
           }}
         />
