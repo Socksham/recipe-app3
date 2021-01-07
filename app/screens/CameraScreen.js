@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Text, View,SafeAreaView, StyleSheet,StatusBar,TouchableOpacity } from 'react-native';
+import { Text, View,SafeAreaView, StyleSheet, StatusBar, TouchableOpacity } from 'react-native';
 // import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 // import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Icon } from 'react-native-elements'
@@ -13,6 +13,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { useNavigation } from '@react-navigation/native';
 
+import colors from "../src/config/colors.js"
 
 export default function CameraScreen() {
   // cameraRef = React.createRef()
@@ -49,17 +50,11 @@ export default function CameraScreen() {
   }
   return (
     <SafeAreaView style={{ flex: 1 }}>
-       
       <Camera ref={cameraRef} style={{ flex: 1 }} type={type}>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: 'transparent',
-            flexDirection: 'row',
-          }}>
+        <View style={styles.innerCameraView}>
           <Icon
             name = "flip-camera-ios"
-            size = {30}
+            size = {70}
             style = {styles.flipIcon}
             color = "white"
             onPress = {() => {
@@ -71,7 +66,7 @@ export default function CameraScreen() {
             }} />
           <Icon
             name = "stop-circle"
-            size = {30}
+            size = {70}
             style = {styles.snapIcon}
             color = "white"
             onPress = {_takePicture}
@@ -85,9 +80,19 @@ export default function CameraScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.primary,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  innerCameraView: {
+    width: '93%', 
+    height: 70,
+    flexDirection: "row",
+    justifyContent: 'space-between', 
+    alignItems: 'center',
+    alignSelf: 'center',
+    position: 'absolute',
+    bottom: 10
   },
   flipIcon: {
     
