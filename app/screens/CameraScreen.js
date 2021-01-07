@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Text, View,SafeAreaView, StyleSheet,StatusBar,TouchableOpacity } from 'react-native';
+import { Text, View,SafeAreaView, StyleSheet, StatusBar, TouchableOpacity } from 'react-native';
 // import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 // import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Icon } from 'react-native-elements'
@@ -13,41 +13,53 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { useNavigation } from '@react-navigation/native';
 
+import colors from "../src/config/colors.js"
+import * as ImageManipulator from 'expo-image-manipulator'
+const Clarifai = require('clarifai');
 
 export default function CameraScreen() {
   // cameraRef = React.createRef()
+  const clarifai = new Clarifai.App({
+    apiKey: '78862fcd85b94280941e158a27dec5a5',
+  });
   const navigation = useNavigation();
   const [cameraRef, setCameraRef] = useState(React.createRef())
 
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
 
+  predict = async (image) => {
+    let predictions = await clarifai.models.predict(
+      Clarifai.GENERAL_MODEL,
+      image
+    );
+    return predictions;
+  };
+
+  resize = async (photo) => {
+    let manipulatedImage = await ImageManipulator.manipulateAsync(
+      photo,
+      [{ resize: { height: 300, width: 300 } }],
+      { base64: true }
+    );
+    return manipulatedImage.base64;
+  };
+
 
   const _takePicture = async () => {
     console.log("Loading...")
-    const options = {
-        bse64:true
-    };
-    const photo = await cameraRef.current.takePictureAsync(options)
-    const Clarifai = require('clarifai')
-    const app = new Clarifai.App({
-      apiKey: '286912c7f9184e3cb1c0cc5105f244c1'
-  });
-  app.models.predict(Clarifai.GENERAL_MODEL, {base64: imageData})
-  .then((response) =>  this.displayAnswer(response.outputs[0].data.concepts[0].name)
-  .catch((err) => alert(err))
-);
-    // const fileUri = photo.uri;
-    // console.log(fileUri)  
-    // const imgB64 = await FileSystem.readAsStringAsync(image, {
+    const photo = await cameraRef.current.takePictureAsync()
+    const fileUri = photo.uri;
+    let resized = await resize(fileUri);
+    let prediction = await predict(resized)
+    prediction = prediction.outputs[0].data.concepts
+    console.log("PREDICTION") 
+    // const imgB64 = await FileSystem.readAsStringAsync(fileUri, {
     //   encoding: FileSystem.EncodingType.Base64,
     // });
-    // await tf.ready();
-    // const imgBuffer = tf.util.encodeString(imgB64, 'base64').buffer;
-    // const raw = new Uint8Array(imgBuffer)  
-    // tensor = decodeJpeg(raw);
-    navigation.navigate("CameraPicture", {image: fileUri});
+    navigation.navigate("CameraPicture", {prediction: prediction});
   }
+
 
   useEffect(() => {
     (async () => {
@@ -64,17 +76,11 @@ export default function CameraScreen() {
   }
   return (
     <SafeAreaView style={{ flex: 1 }}>
-       
       <Camera ref={cameraRef} style={{ flex: 1 }} type={type}>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: 'transparent',
-            flexDirection: 'row',
-          }}>
+        <View style={styles.innerCameraView}>
           <Icon
             name = "flip-camera-ios"
-            size = {30}
+            size = {70}
             style = {styles.flipIcon}
             color = "white"
             onPress = {() => {
@@ -86,7 +92,7 @@ export default function CameraScreen() {
             }} />
           <Icon
             name = "stop-circle"
-            size = {30}
+            size = {70}
             style = {styles.snapIcon}
             color = "white"
             onPress = {_takePicture}
@@ -100,9 +106,22 @@ export default function CameraScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.primary,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  innerCameraView: {
+    width: '93%', 
+    height: 70,
+    flexDirection: "row",
+    justifyContent: 'space-between', 
+    alignItems: 'center',
+    alignSelf: 'center',
+    position: 'absolute',
+    bottom: 10
+  },
+  flipIcon: {
+    
   },
   snapIcon: {
     
