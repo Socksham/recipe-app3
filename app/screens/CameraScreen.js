@@ -31,12 +31,7 @@ export default function CameraScreen() {
     const imgB64 = await FileSystem.readAsStringAsync(fileUri, {
       encoding: FileSystem.EncodingType.Base64,
     });
-    await tf.ready();
-    const imgBuffer = tf.util.encodeString(imgB64, 'base64').buffer;
-    const raw = new Uint8Array(imgBuffer)  
-    const imageTensor = decodeJpeg(raw);
-    console.log('helllo')
-    navigation.navigate("CameraPicture", {image: fileUri, tensor: imageTensor});
+    navigation.navigate("CameraPicture", {image: fileUri});
   }
 
   useEffect(() => {

@@ -9,24 +9,58 @@ import { View, TextInput,SafeAreaView, StyleSheet,Image, Text } from 'react-nati
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Camera } from 'expo-camera';
 
-const CameraPictureScreen = () => {
-    const predict = async () => {
-        console.log("IN PREDICT")
-        const modelJson = await require("../model/model.json");
-        console.log("Loaded model.json")
-        const modelWeight = await require("../model/group1-shard.bin");
-        console.log("weights loaded")
-        const detector = await tf.loadLayersModel(bundleResourceIO(modelJson, modelWeight));
-        console.log("PREDICTING")
-        //use the model
-        let result = await detector.predict(tensor).data()
-        console.log(result);
-    }
+export default function CameraPictureScreen(){
+    // const predict = async () => {
+    //     console.log("IN PREDICT")
+    //     const modelJson = await require("../model/model.json");
+    //     console.log("Loaded model.json")
+    //     const modelWeight = await require("../model/group1-shard.bin");
+    //     console.log("weights loaded")
+    //     const detector = await tf.loadLayersModel(bundleResourceIO(modelJson, modelWeight));
+    //     console.log("PREDICTING")
+    //     //use the model
+    //     let result = await detector.predict(tensor).data()
+    //     console.log(result);
+    // }
+
     const navigation = useNavigation();
     const route = useRoute();
     const { image, tensor } = route.params;
-    console.log(JSON.stringify(tensor))
-    console.log(JSON.stringify(image))
+
+    const callAPI = (imageurl) => {
+        // var request = new XMLHttpRequest();
+
+        // request.open('GET', 'http://api.foodai.org/v1/classify?image_url=&qid=&num_tag=');
+
+        // request.onreadystatechange = function () {
+        // if (this.readyState === 4) {
+        //     console.log('Status:', this.status);
+        //     console.log('Headers:', this.getAllResponseHeaders());
+        //     console.log('Body:', this.responseText);
+        //     }
+        // };
+
+        // request.send();
+            let url = 'http://api.foodai.org/v1/classify?image_url=&qid=&num_tag='
+            let request = new XMLHttpRequest();
+            request.open("GET", url);
+            request.send();
+            request.onload = () => {
+        if (request.status == 200) {
+            console.log(request.response)
+        } else {
+            console.log(`error ${request.status} ${request.statusText}`);
+        }
+    }
+}
+
+    callAPI()
+
+    
+
+
+    // console.log(JSON.stringify(tensor))
+    // console.log(JSON.stringify(image))
     // console.log("[+] Loading custom model")
     // const modelJson = require("../model/model.json");
     // const modelWeight = require("../model/group1-shard.bin");
@@ -34,7 +68,7 @@ const CameraPictureScreen = () => {
 
     // //use the model
     // let result = detector.predict(tensor).data()
-    predict()
+    // predict()
     
     return (
         <SafeAreaView style={styles.container}>
@@ -53,5 +87,3 @@ const styles = StyleSheet.create({
         paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
     },
   });
-
-export default CameraPictureScreen;
