@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import { View, Text, Button, SafeAreaView, StatusBar } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import HomeScreen from '../screens/HomeScreen'
-import CameraScreen from '../screens/CameraScreen'
+import CameraStackScreen from '../screens/CameraStackScreen'
 import CameraPictureScreen from '../screens/CameraPictureScreen'
 import SearchRecipeScreen from '../screens/SearchRecipeScreen'
 import RecipeInformationScreen from '../screens/RecipeInformationScreen'
@@ -19,10 +19,9 @@ function Home(){
     return <HomeScreen />
 }
 
-function Camera(){
-    return <CameraScreen />
+function CameraStack(){
+    return <CameraStackScreen />
 }
-
 function ConfirmPicture(){
     return <CameraPictureScreen />
 }
@@ -41,13 +40,11 @@ function RecipeInformation(){
 }
 
 export const Routes = ({}) => {
-
-
     return(
         <NavigationContainer>
             <Tabs.Navigator initialRouteName="Home">
                 <Tabs.Screen name="Home" component={Home}/>
-                <Tabs.Screen name="Camera" component={Camera}/>
+                <Tabs.Screen name="CameraStack" component={CameraStack}/>
                 <Tabs.Screen name="SearchRecipe" component={SearchRecipe}/>
             </Tabs.Navigator>
         </NavigationContainer>
