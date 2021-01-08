@@ -1,8 +1,10 @@
 import React, {useState, useEffect } from 'react';
 import { Button, Input, ListItem, List } from 'react-native-elements'
-import { SafeAreaView, StyleSheet, Text } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { FlatList, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import colors from "../src/config/colors.js"
+import { color } from 'react-native-reanimated';
 
 let results = []
 
@@ -48,7 +50,7 @@ export default function CameraPictureScreen(){
 
     return (
         <SafeAreaView style={styles.container}>
-                <FlatList 
+                {/* <FlatList 
                     data = {prediction} 
                     keyExtractor = {(item) => item.id}
                     renderItem = {({item}) => (
@@ -57,6 +59,22 @@ export default function CameraPictureScreen(){
                             </TouchableWithoutFeedback>
                         )}
 
+                /> */}
+                <FlatList
+                data = {prediction} 
+                keyExtractor = {(item) => item.id}
+                renderItem = {( {item} ) => { 
+                    return (
+                        <View style={styles.view}>
+                            <TouchableWithoutFeedback onPress={() => actionRow(item)}>
+                                <View style={styles.postElement}>
+                                    <Text style = {styles.postTitle}>{item.name}</Text>
+                                </View>
+                            </TouchableWithoutFeedback>
+                        </View>
+                        
+                    );
+                }}
                 />
             
         </SafeAreaView>
@@ -67,6 +85,45 @@ export default function CameraPictureScreen(){
 
 const styles = StyleSheet.create({
     container:{
-        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
+        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+        backgroundColor: colors.secondary
+
     },
+    view:{
+        height: 50,
+        flexDirection: "column",
+        justifyContent: "center"
+    },
+    headerView: {
+        height: 80, 
+        justifyContent: "center", 
+        alignItems: "center",
+        backgroundColor: colors.primary,
+        bottom: 20
+    },
+    flatlistView: {
+        flex: 1
+    },
+    postElement: {
+        width: "100%",
+        height: "100%",
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor:  colors.secondary,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: colors.primary,
+    },
+    postTitle: {
+        fontSize: 24,
+        fontWeight: "bold",  
+        color: "white",
+        opacity: .8
+    },
+    postSubtitle: {
+        fontSize: 14,
+        color: "white",
+        backgroundColor: colors.primary,
+        opacity: .8
+    }
   });

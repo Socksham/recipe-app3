@@ -61,7 +61,7 @@ const SearchRecipeScreen = () => {
         </View>
         <SafeAreaView style={styles.container}>
           <SearchBar
-            placeholder="Search"
+            placeholder="Type an ingredient..."
             onChangeText={onChangeSearch}
             value={searchQuery}
             onSubmitEditing={() => {
