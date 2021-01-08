@@ -11,36 +11,14 @@ let start = "http://www.recipepuppy.com/api/?q=";
 let results = [];
 
 const SearchRecipeScreen = () => {
-  const [searchQuery, setSearchQuery] = useState("");
+    console.log("HELLO")
   const route = useRoute()
   const [data, setData] = useState(results);
+  const { results } = route.params
+  console.log("RESULTSSSSSSSS")
+  console.log(results)
 
-  const search = (query) => {
-    console.log("IN SEARCH")
-    let url = start + query;
-
-    let request = new XMLHttpRequest();
-    request.open("GET", url);
-    request.send();
-    request.onload = () => {
-      if (request.status == 200) {
-        let obj = JSON.parse(request.response);
-        results = obj.results;
-        for (let x = 0; x < results.length; x++) {
-          if (results[x].thumbnail == "") {
-            results.splice(x, 1);
-            x--;
-          }
-        }
-        setData(results);
-        console.log(results);
-      } else {
-        console.log(`error ${request.status} ${request.statusText}`);
-      }
-    };
-  };
-
-  const onChangeSearch = (query) => setSearchQuery(query);
+  //   },[]);
   return (
     <Fragment>
       <SafeAreaView style={{ flex: 0, backgroundColor: colors.primary }} />
@@ -59,7 +37,7 @@ const SearchRecipeScreen = () => {
             source={require("../pictures/logo2.jpg")}
           ></Image>
         </View>
-        <SafeAreaView style={styles.container}>
+        {/* <SafeAreaView style={styles.container}>
           <SearchBar
             placeholder="Search"
             onChangeText={onChangeSearch}
@@ -68,17 +46,17 @@ const SearchRecipeScreen = () => {
               search(searchQuery);
             }}
           />
-        </SafeAreaView>
+        </SafeAreaView> */}
         <FlatList
-          data={data}
-          extraData={data}
+          data={results}
+          extraData={results}
           keyExtractor={(item) => item.thumbnail}
           renderItem={({ item }) => {
             return (
               <TouchableWithoutFeedback onPress={() => Linking.openURL(item.href)}>
                 <ImageBackground
                 blurRadius={1}
-                source={{uri:item.thumbnail}}
+        o        source={{uri:item.thumbnail}}
                 style={styles.postElement}
                 >
                 <Text style={styles.postTitle}>{item.title}</Text>

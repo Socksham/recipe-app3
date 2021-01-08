@@ -18,6 +18,7 @@ import * as ImageManipulator from 'expo-image-manipulator'
 const Clarifai = require('clarifai');
 
 export default function CameraScreen() {
+  let results = []
   // cameraRef = React.createRef()
   const clarifai = new Clarifai.App({
     apiKey: '78862fcd85b94280941e158a27dec5a5',
@@ -28,7 +29,7 @@ export default function CameraScreen() {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
 
-  predict = async (image) => {
+  const predict = async (image) => {
     let predictions = await clarifai.models.predict(
       Clarifai.GENERAL_MODEL,
       image
@@ -36,7 +37,7 @@ export default function CameraScreen() {
     return predictions;
   };
 
-  resize = async (photo) => {
+  const resize = async (photo) => {
     let manipulatedImage = await ImageManipulator.manipulateAsync(
       photo,
       [{ resize: { height: 300, width: 300 } }],
@@ -48,11 +49,14 @@ export default function CameraScreen() {
 
   const _takePicture = async () => {
     console.log("Loading...")
+    console.log("_______________________________________________________-")
     const photo = await cameraRef.current.takePictureAsync()
     const fileUri = photo.uri;
     let resized = await resize(fileUri);
     let prediction = await predict(resized)
     prediction = prediction.outputs[0].data.concepts
+    console.log(prediction)
+    // prediction = search(prediction)
     console.log("PREDICTION") 
     // const imgB64 = await FileSystem.readAsStringAsync(fileUri, {
     //   encoding: FileSystem.EncodingType.Base64,

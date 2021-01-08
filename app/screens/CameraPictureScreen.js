@@ -2,50 +2,62 @@ import React, {useState, useEffect } from 'react';
 import { Button, Input, ListItem, List } from 'react-native-elements'
 import { SafeAreaView, StyleSheet, Text } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+
+let results = []
 
 export default function CameraPictureScreen(){
-    // const predict = async () => {
-    //     console.log("IN PREDICT")
-    //     const modelJson = await require("../model/model.json");
-    //     console.log("Loaded model.json")
-    //     const modelWeight = await require("../model/group1-shard.bin");
-    //     console.log("weights loaded")
-    //     const detector = await tf.loadLayersModel(bundleResourceIO(modelJson, modelWeight));
-    //     console.log("PREDICTING")
-    //     //use the model
-    //     let result = await detector.predict(tensor).data()
-    //     console.log(result);
-    // }
-
+    let start = "http://www.recipepuppy.com/api/?q=";
     const navigation = useNavigation();
     const route = useRoute();
     const { prediction } = route.params;
-    let dict = prediction
-    dict  = dict.splice(3, dict.length-3);
-    
-    // dict = take(3, dict.iteritems())
-    
-
-    
     console.log(prediction)
+    const [data, setData] = useState(results);
+
+    const search = (query) => {
+    console.log("IN SEARCH")
+    let url = start + query;
+
+    let request = new XMLHttpRequest();
+    request.open("GET", url);
+    request.send();
+    request.onload = () => {
+      if (request.status == 200) {
+        let obj = JSON.parse(request.response);
+        results = obj.results;
+        for (let x = 0; x < results.length; x++) {
+          if (results[x].thumbnail == "") {
+            results.splice(x, 1);
+            x--;
+          }
+        }
+        navigation.navigate("CameraSearch", {results: results})
+        console.log(results);
+      } else {
+        console.log(`error ${request.status} ${request.statusText}`);
+      }
+    };
+  };
+    // dict = take(3, dict.iteritems())
+    console.log(prediction)
+
+    const actionRow = (item) => {
+        console.log('Selected Item :',item.name);
+        search(item.name)
+    }
+
     return (
         <SafeAreaView style={styles.container}>
-            {/* <List> */}
-                <FlatList
-                    data = {dict} 
+                <FlatList 
+                    data = {prediction} 
                     keyExtractor = {(item) => item.id}
                     renderItem = {({item}) => (
-                            // <ListItem 
-                            //     title={item.name}
-                            //     subtitle={item.value}
-                            //     containerStyle={{borderBottomWidth: 0}}
-                            // />
-                            <Text>{item.name}</Text>
+                            <TouchableWithoutFeedback onPress={() => actionRow(item)}>
+                                <Text>{item.name}</Text>
+                            </TouchableWithoutFeedback>
                         )}
 
                 />
-            {/* </List> */}
             
         </SafeAreaView>
     )
